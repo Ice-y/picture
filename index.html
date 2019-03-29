@@ -1,0 +1,141 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>demo58</title>
+	<style>
+		ul,ol {
+			margin: 0;
+			padding: 0;
+			list-style: none;
+		}
+		#show {
+			width: 400px;
+			height: 500px;
+			border: 5px solid;
+			margin: 20px auto;
+			position: relative;
+			overflow: hidden;
+		}
+		#list {
+			width: 2000px;
+			height: 500px;
+			position: absolute;
+			top: 0;
+			left: 0;
+		}
+		#list li {
+			float: left;
+		}
+		#list img {
+			width: 400px;
+		}
+		#btn {
+			width: 100%;
+			position: absolute;
+			bottom: 10px;
+			left: 0;
+			text-align: center;
+		}
+		#btn li {
+			display: inline-block;
+			margin: 0 5px;
+			width: 15px;
+			height: 15px;
+			border-radius: 50%;
+			background: #ccc;
+			cursor: pointer;
+		}
+		#btn .act {
+			background: orange;
+		}
+		.arrow {
+			text-align: center;
+			position: absolute;
+			top: 200px;
+			font-size: 74px;
+			cursor: pointer;
+			background: rgba(0, 0, 0, 0.5);
+			color: #fff;
+			width: 60px;
+			height: 100px;
+		}
+		#left {
+			left: 5px;
+		}
+		#right {
+			right: 5px;
+		}
+	</style>
+</head>
+<body>
+	<div id="show">
+		<ul id="list">
+			<li><img src="images/1.jpg" alt="1"></li>
+			<li><img src="images/2.jpg" alt="2"></li>
+			<li><img src="images/3.jpg" alt="3"></li>
+			<li><img src="images/4.jpg" alt="4"></li>
+			<li><img src="images/5.jpg" alt="5"></li>
+		</ul>
+		<ol id="btn">
+			<li class="act"></li>
+			<li></li>
+			<li></li>
+			<li></li>
+		</ol>
+		<div class="arrow" id="left">&lt;</div>
+		<div class="arrow" id="right">&gt;</div>
+	</div>
+	<script>
+		var $=id=>document.getElementById(id);
+		var show=$('show');
+		var list=$('list');
+		var imgs=list.getElementsByTagName('img');
+		var btns=$('btn').getElementsByTagName('li');
+		var left=$('left');
+		var right=$('right');
+		var imgWidth=imgs[0].offsetWidth;
+		var btnsNum=btns.length;
+		var imgIndex=0;
+		var timer=null;
+		var sec=2;
+		function switchImg(index) {
+			for (var i=0;i<btnsNum;i++) {
+					btns[i].className='';
+				}
+				btns[index].className='act';
+				list.style.left=-imgWidth*index+'px';
+		}
+		for (var i=0;i<btnsNum;i++) {
+			btns[i].index=i;
+			btns[i].onmouseover=function () {
+				imgIndex=this.index;
+				switchImg(imgIndex);
+			}
+		}
+		left.onclick=function () {
+			imgIndex--;
+			if (imgIndex<0) {
+				imgIndex=btnsNum-1;
+			}
+			switchImg(imgIndex);
+		}
+		right.onclick=function () {
+			imgIndex++;
+			if (imgIndex>btnsNum-1) {
+				imgIndex=0;
+			}
+			switchImg(imgIndex);
+		}
+		show.onmouseover=function () {
+			clearInterval(timer);
+		}
+		show.onmouseout=function () {
+			timer=setInterval(function () {
+				right.onclick();
+			},1000*sec);
+		}
+		show.onmouseout();
+	</script>
+</body>
+</html>
